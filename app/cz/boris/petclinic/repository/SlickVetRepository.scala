@@ -8,7 +8,7 @@ import cz.boris.petclinic.models.Vet
 
 object SlickVetRepository extends BaseRepository {
 
-  def allVets(): List[Vet] = executeInTransaction(Query(Vets).list)
+  def allVets(): Vector[Vet] = executeInTransaction(Query(Vets).to[Vector])
 
   def findOne(id: Int): Vet = executeInTransaction(Query(Vets).filter(_.id === id).first)
 

@@ -6,10 +6,11 @@ import java.sql.Date
 // Entities
 case class Vet(id: Option[Int] = None, firstName: String, lastName: String)
 case class Owner(id: Option[Int] = None, first: String, last: String, address: String, city: String, phone: String)
-case class Pet(id: Option[Int] = None, name: String, birth: Date)
-case class Visit(id: Option[Int] = None, date: Date, description: String)
+case class Pet(id: Option[Int] = None, name: String, birth: Date, type_id: Int, owner_id: Int)
+case class Visit(id: Option[Int] = None, date: Date, description: String, pet_id: Int)
 case class Spec(id: Option[Int] = None, name: String)
 case class Type(id: Option[Int] = None, name: String)
+case class Specialties(vet_id: Int, spec_id: Int)
 
 //Mapping
 object Vets extends Table[Vet]("VETS") {
@@ -25,18 +26,21 @@ object Pets extends Table[Pet]("PETS") {
   def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
   def name = column[String]("NAME")
   def birth = column[Date]("BIRTH_DATE")
+  def type_id = column[Int]("TYPE_ID")
+  def owner_id = column[Int]("OWNER_ID")
 
-  def * = id.? ~ name ~ birth <> (Pet, Pet.unapply _)
-  def forInsert = name ~ birth <> ({ t => Pet(None, t._1, t._2) }, { (pet: Pet) => Some((pet.name, pet.birth)) })
+  def * = id.? ~ name ~ birth ~ type_id ~ owner_id <> (Pet, Pet.unapply _)
+  def forInsert = name ~ birth ~ type_id ~ owner_id <> ({ t => Pet(None, t._1, t._2, t._3, t._4) }, { (pet: Pet) => Some((pet.name, pet.birth, pet.type_id, pet.owner_id)) })
 }
 
 object Visits extends Table[Visit]("VISITS") {
   def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
   def date = column[Date]("VISIT_DATE")
   def description = column[String]("DESCRIPTION")
+  def pet_id = column[Int]("PET_ID")
 
-  def * = id.? ~ date ~ description <> (Visit, Visit.unapply _)
-  def forInsert = date ~ description <> ({ t => Visit(None, t._1, t._2) }, { (visit: Visit) => Some((visit.date, visit.description)) })
+  def * = id.? ~ date ~ description ~ pet_id <> (Visit, Visit.unapply _)
+  def forInsert = date ~ description ~ pet_id <> ({ t => Visit(None, t._1, t._2, t._3) }, { (visit: Visit) => Some((visit.date, visit.description, visit.pet_id)) })
 }
 
 object Types extends Table[Type]("TYPES") {
@@ -63,9 +67,8 @@ object Owners extends Table[Owner]("OWNERS") {
 
   def * = id.? ~ first ~ last ~ address ~ city ~ phone <> (Owner, Owner.unapply _)
   def forInsert = first ~ last ~ address ~ city ~ phone <> (
-      { t => Owner(None, t._1, t._2, t._3, t._4, t._5) },
-      { (owner: Owner) => Some((owner.first, owner.last, owner.address, owner.city, owner.phone)) }
-  )
+    { t => Owner(None, t._1, t._2, t._3, t._4, t._5) },
+    { (owner: Owner) => Some((owner.first, owner.last, owner.address, owner.city, owner.phone)) })
 }
 
 // Helpers

@@ -9,8 +9,20 @@ import cz.boris.petclinic.models.Vets
 import cz.boris.petclinic.models.Vet
 import cz.boris.petclinic.repository.SlickVetRepository
 import cz.boris.petclinic.repository.SlickVetRepository
+import cz.boris.petclinic.repository.SlickVisitRepository
 
 class ModelSpec extends Specification {
+  
+  "Visits model" should {
+
+    "return visit by pet id" in {
+      running(FakeApplication()) {
+        val repo = SlickVisitRepository
+        val visits = repo.findByPetId(8)
+        visits.size must equalTo(2)
+      }
+    }
+  }
 
   "Vets model" should {
 
