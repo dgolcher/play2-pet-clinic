@@ -1,0 +1,10 @@
+div.main-container {
+	width: 800px;
+	margin: 0 auto;
+}
+
+img.resize {
+	width: 600px;
+	height: 70px;
+	padding: 10px
+}
