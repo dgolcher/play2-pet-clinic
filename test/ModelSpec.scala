@@ -10,6 +10,8 @@ import cz.boris.petclinic.models.Vet
 import cz.boris.petclinic.repository.SlickVetRepository
 import cz.boris.petclinic.repository.SlickVetRepository
 import cz.boris.petclinic.repository.SlickVisitRepository
+import cz.boris.petclinic.repository.SlickOwnerRepository
+import cz.boris.petclinic.repository.SlickPetRepository
 
 class ModelSpec extends Specification {
   
@@ -20,6 +22,28 @@ class ModelSpec extends Specification {
         val repo = SlickVisitRepository
         val visits = repo.findByPetId(8)
         visits.size must equalTo(2)
+      }
+    }
+  }
+  
+  "Owner model" should {
+
+    "return owners by last name" in {
+      running(FakeApplication()) {
+        val repo = SlickOwnerRepository
+        val owners = repo.findByLastName("Davis")
+        owners.size must equalTo(2)
+      }
+    }
+  }
+  
+  "Pet model" should {
+
+    "return types by pet" in {
+      running(FakeApplication()) {
+        val repo = SlickPetRepository
+        val types = repo.findTypesByPet
+        types.size must equalTo(6)
       }
     }
   }

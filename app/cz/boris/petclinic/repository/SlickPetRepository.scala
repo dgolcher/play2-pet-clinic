@@ -7,19 +7,19 @@ import Database.threadLocalSession
 import cz.boris.petclinic.models.Types
 import cz.boris.petclinic.models.Type
 
-class SlickPetRepository extends BaseRepository {
+object SlickPetRepository extends BaseRepository {
   
   def save(pet: Pet): Int = executeInTransaction(Pets.forInsert returning Pets.id insert pet)
   
   def findOne(id: Int): Pet = executeInTransaction(Query(Pets).filter(_.id === id).first)
   
-  def findByTypes() : Vector[Type] = {
+  def findTypesByPet() : Set[Type] = {
     executeInTransaction {
       val q = for {
         t <- Types
         p <- Pets if t.id === p.type_id
       } yield (t)
-      q.to[Vector]
+      q.to[Set]
     }
   }
 
