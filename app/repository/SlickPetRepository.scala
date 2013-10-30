@@ -1,11 +1,11 @@
-package cz.boris.petclinic.repository
+package repository
 
-import cz.boris.petclinic.models.Pets
-import cz.boris.petclinic.models.Pet
+import models.Pets
+import models.Pet
 import scala.slick.driver.H2Driver.simple._
 import Database.threadLocalSession
-import cz.boris.petclinic.models.Types
-import cz.boris.petclinic.models.Type
+import models.Types
+import models.Type
 
 object SlickPetRepository extends BaseRepository {
 

@@ -1,11 +1,11 @@
-package cz.boris.petclinic.repository
+package repository
 
-import cz.boris.petclinic.models.Owner
+import models.Owner
 import scala.slick.driver.H2Driver.simple._
 import Database.threadLocalSession
-import cz.boris.petclinic.models.Owner
-import cz.boris.petclinic.models.Owners
-import cz.boris.petclinic.models.Owner
+import models.Owner
+import models.Owners
+import models.Owner
 
 object SlickOwnerRepository extends BaseRepository {
 

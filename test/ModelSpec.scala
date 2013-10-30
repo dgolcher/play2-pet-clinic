@@ -5,13 +5,13 @@ import play.api.test._
 import play.api.test.Helpers._
 import scala.slick.driver.H2Driver.simple._
 import Database.threadLocalSession
-import cz.boris.petclinic.models.Vets
-import cz.boris.petclinic.models.Vet
-import cz.boris.petclinic.repository.SlickVetRepository
-import cz.boris.petclinic.repository.SlickVetRepository
-import cz.boris.petclinic.repository.SlickVisitRepository
-import cz.boris.petclinic.repository.SlickOwnerRepository
-import cz.boris.petclinic.repository.SlickPetRepository
+import models.Vets
+import models.Vet
+import repository.SlickVetRepository
+import repository.SlickVetRepository
+import repository.SlickVisitRepository
+import repository.SlickOwnerRepository
+import repository.SlickPetRepository
 
 class ModelSpec extends Specification {
   
@@ -55,6 +55,14 @@ class ModelSpec extends Specification {
         val repo = SlickVetRepository
         val vets = repo.allVets
         vets.size must equalTo(6)
+      }
+    }
+    
+    "get all spec for vet" in {
+      running(FakeApplication()) {
+        val repo = SlickVetRepository
+        val q = repo.allVets
+        q(2).specialization.size must equalTo(2)
       }
     }
     

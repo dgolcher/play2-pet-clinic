@@ -1,0 +1,26 @@
+@(vets: Seq[Vet])
+
+@main("Vets") {
+	<table class="table table-stripped">
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Specialization</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(vet <- vets) {
+				<tr>
+					<td>@vet.firstName</td>
+					<td>@vet.lastName</td>
+					<td>
+					@for(spec <- vet.specialization) {
+						@spec
+					}
+					</td>
+				</tr>	
+			}
+		</tbody>	
+	</table>
+}
