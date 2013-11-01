@@ -3,6 +3,7 @@ import play.api.mvc.Action
 import play.api.mvc.Controller
 import repository.SlickVetRepository
 import models.Spec
+import facade.PetClinicFacade
 
 object VetController extends Controller {
   

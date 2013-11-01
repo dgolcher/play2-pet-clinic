@@ -31,7 +31,7 @@ class ModelSpec extends Specification {
     "return owners by last name" in {
       running(FakeApplication()) {
         val repo = SlickOwnerRepository
-        val owners = repo.findByLastName("Davis")
+        val owners = repo.findByLastName("Dav")
         owners.size must equalTo(2)
       }
     }
@@ -62,7 +62,7 @@ class ModelSpec extends Specification {
       running(FakeApplication()) {
         val repo = SlickVetRepository
         val q = repo.allVets
-        q(2).specialization.size must equalTo(2)
+        q(3).specialization.size must equalTo(2)
       }
     }
     
@@ -71,6 +71,7 @@ class ModelSpec extends Specification {
         val repo = SlickVetRepository
         val id = repo.save(Vet(None, "John", "Doe"))
         id must equalTo(7)
+        repo.allVets.size must equalTo(7)
       }
     }
     

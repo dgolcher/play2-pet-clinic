@@ -1,1 +1,19 @@
-@(param: Any)
+@import helper._
+
+
+@main("Owners") {
+<div class="container">
+    <h3>Find Owners</h3>
+
+  @form(action=routes.OwnerController.list(), 'class -> "form-inline") {
+  <div class="form-group">
+    <label class="sr-only" for="search">Last Name</label>
+    <input type="text" name="name" class="form-control" id="search" placeholder="Last Name">
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+  }
+    <br/>
+    <a href=''>Add Owner</a>
+
+</div>
+}

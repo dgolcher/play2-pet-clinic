@@ -1,0 +1,10 @@
+@(owners: Vector[Owner])
+
+@main("Owners") {
+	@for(owner <- owners) {
+		@owner.first
+		@owner.last 
+		@owner.address <br />
+		
+	}
+}

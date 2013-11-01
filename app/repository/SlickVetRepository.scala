@@ -12,8 +12,6 @@ import models.VetToSpecs
 import play.api.Logger
 import scala.collection.mutable.ArrayBuffer
 
-case class VetVo(id: Option[Int], first: String, last: String, specs: List[Spec])
-
 object SlickVetRepository extends BaseRepository {
 
   def allVets(): ArrayBuffer[Vet] = executeInTransaction {
@@ -27,7 +25,7 @@ object SlickVetRepository extends BaseRepository {
     } yield {
       v.specialization += s.name
     }
-    vets
+    vets.sortBy(_.firstName)
   }
 
   def findOne(id: Int): Vet = executeInTransaction(Query(Vets).filter(_.id === id).first)
