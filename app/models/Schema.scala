@@ -8,8 +8,10 @@ import scala.collection.mutable.ArrayBuffer
 case class Vet(id: Option[Int] = None, firstName: String, lastName: String) {
   var specialization = ArrayBuffer[String]()
 }
-case class Owner(id: Option[Int] = None, first: String, last: String, address: String, city: String, phone: String)
-case class Pet(id: Option[Int] = None, name: String, birth: Date, type_id: Int, owner_id: Int)
+case class Owner(id: Option[Int] = None, first: String, last: String, address: String, city: String, phone: String) {
+  var pets = ArrayBuffer[Pet]()
+}
+case class Pet(id: Option[Int] = None, name: String, birth: Date, type_id: Option[Int], owner_id: Option[Int])
 case class Visit(id: Option[Int] = None, date: Date, description: String, pet_id: Int)
 case class Spec(id: Option[Int] = None, name: String)
 case class Type(id: Option[Int] = None, name: String)
@@ -30,8 +32,8 @@ object Pets extends Table[Pet]("PETS") {
   def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
   def name = column[String]("NAME")
   def birth = column[Date]("BIRTH_DATE")
-  def type_id = column[Int]("TYPE_ID")
-  def owner_id = column[Int]("OWNER_ID")
+  def type_id = column[Option[Int]]("TYPE_ID")
+  def owner_id = column[Option[Int]]("OWNER_ID")
   
   def ownerFK = foreignKey("fk_pets_owners", owner_id, Owners)(_.id)
   def typeFK = foreignKey("fk_pets_types", type_id, Types)(_.id)

@@ -9,8 +9,11 @@ GET    /               controllers.Application.index
 GET    /vets           controllers.VetController.showVetList
 
 #Owners
-GET    /find           controllers.OwnerController.search
-POST   /find           controllers.OwnerController.list
+GET    /owners         controllers.OwnerController.search
+POST   /owners         controllers.OwnerController.list
+GET    /owners/new     controllers.OwnerController.newOwnerForm
+POST   /owners/new     controllers.OwnerController.newOwner
+GET    /owners/:id     controllers.OwnerController.owner(id: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file   controllers.Assets.at(path="/public", file)

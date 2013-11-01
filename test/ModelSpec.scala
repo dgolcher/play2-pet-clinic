@@ -35,6 +35,14 @@ class ModelSpec extends Specification {
         owners.size must equalTo(2)
       }
     }
+    
+    "return pets for owner" in {
+      running(FakeApplication()) {
+        val repo = SlickOwnerRepository
+        val owners = repo.findByLastName("Estab")
+        owners(0).pets.size must equalTo(2)
+      }
+    }
   }
   
   "Pet model" should {
