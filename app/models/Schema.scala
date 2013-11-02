@@ -11,7 +11,9 @@ case class Vet(id: Option[Int] = None, firstName: String, lastName: String) {
 case class Owner(id: Option[Int] = None, first: String, last: String, address: String, city: String, phone: String) {
   var pets = ArrayBuffer[Pet]()
 }
-case class Pet(id: Option[Int] = None, name: String, birth: Date, type_id: Option[Int], owner_id: Option[Int])
+case class Pet(id: Option[Int] = None, name: String, birth: Date, type_id: Option[Int], owner_id: Option[Int]) {
+  var petType = "Not defined"
+}
 case class Visit(id: Option[Int] = None, date: Date, description: String, pet_id: Int)
 case class Spec(id: Option[Int] = None, name: String)
 case class Type(id: Option[Int] = None, name: String)

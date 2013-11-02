@@ -8,5 +8,13 @@
 		<tr><td><b>City</b></td><td>@owner.city</td></tr>
 		<tr><td><b>Telephone</b></td><td>@owner.phone</td></tr>
 		<tr><td><a href="@routes.OwnerController.editOwner(owner.id.get)" class="btn btn-primary">Edit Owner</button></td><td><a href="" class="btn btn-primary">Add New Pet</button></td></tr>
-	</table>	
+	</table>
+	<h3>Pets and Visits</h3>
+	@for(pet <- owner.pets) {
+		<table class="table table-striped">
+			<tr><td><b>Name</b></td></b><td>@pet.name</td></tr>
+			<tr><td><b>Birth</b></td><td>@pet.birth</td></tr>
+			<tr><td><b>Type</b></td><td>@pet.petType</td></tr>
+		</table>
+	} 	
 }

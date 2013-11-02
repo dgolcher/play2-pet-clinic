@@ -1,23 +1,43 @@
 package repository
 
-import models.Owner
-import scala.slick.driver.H2Driver.simple._
-import Database.threadLocalSession
+import scala.collection.mutable.ArrayBuffer
+import scala.slick.driver.H2Driver.simple.Database.threadLocalSession
+import scala.slick.driver.H2Driver.simple.Query
+import scala.slick.driver.H2Driver.simple.columnBaseToInsertInvoker
+import scala.slick.driver.H2Driver.simple.columnExtensionMethods
+import scala.slick.driver.H2Driver.simple.productQueryToUpdateInvoker
+import scala.slick.driver.H2Driver.simple.queryToQueryInvoker
+import scala.slick.driver.H2Driver.simple.stringColumnExtensionMethods
+import scala.slick.driver.H2Driver.simple.tableToQuery
+import scala.slick.driver.H2Driver.simple.valueToConstColumn
+import utils.QueryLogger._
 import models.Owner
 import models.Owners
-import models.Owner
 import models.Pets
-import scala.collection.mutable.ArrayBuffer
 import play.api.Logger
+import models.Vets
+import models.Types
 
 object SlickOwnerRepository extends BaseRepository {
 
-  def findOne(id: Int): Owner = executeInTransaction(Query(Owners).filter(_.id === id).first)
+  def findOne(id: Int): Owner = executeInTransaction {
+    val owner = Query(Owners).filter(_.id === id).first
+    val pets = Query(Pets).to[ArrayBuffer]
+    val types = Query(Types).to[ArrayBuffer]
+    for {
+      pet <- pets
+      typ <- types 
+      if pet.owner_id == owner.id && typ.id == pet.type_id
+    } yield {
+      pet.petType = typ.name
+      owner.pets += pet
+    }
+    owner
+  }
 
   def findByLastName(name: String): ArrayBuffer[Owner] = executeInTransaction {
     val owners = Query(Owners).filter(_.last.toLowerCase like name.toLowerCase + '%').to[ArrayBuffer]
     val pets = Query(Pets).to[Vector]
-    Logger.info("findByLastName SELECT => " + Query(Owners).filter(_.last.toLowerCase like name.toLowerCase + '%').selectStatement)
     for {
       o <- owners
       p <- pets
@@ -25,7 +45,7 @@ object SlickOwnerRepository extends BaseRepository {
     } yield {
       o.pets += p
     }
-    owners
+    owners.sortBy(_.first)
   }
 
   def save(owner: Owner): Int = executeInTransaction(Owners.forInsert returning Owners.id insert owner)
@@ -35,6 +55,7 @@ object SlickOwnerRepository extends BaseRepository {
       val result = for {
         o <- Owners if o.id === id
       } yield o
+      result.log
       result.update(owner)
       id.get
     }
