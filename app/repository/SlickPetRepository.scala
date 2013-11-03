@@ -27,11 +27,6 @@ object SlickPetRepository extends BaseRepository {
   def findTypesByPet(): Vector[Type] = executeInTransaction(Query(Types).to[Vector])
   
   def updatePet(id: Option[Int], pet: Pet) = executeInTransaction {
-    Logger.info("DATA " + pet.id)
-    Logger.info("DATA " + pet.name)
-    Logger.info("DATA " + pet.birth)
-    Logger.info("DATA " + pet.owner_id)
-    Logger.info("DATA " + pet.type_id)
     val result = for {
       p <- Pets if p.id === id
     } yield p
