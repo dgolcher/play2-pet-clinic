@@ -4,15 +4,14 @@
 
 <p>Build with:</p>
 
-1. Play Framework 2.1: http://www.playframework.com/
-2. Slick for database access: http://slick.typesafe.com/
-3. H2 in-memory database: http://www.h2database.com/html/main.html
-4. Scala IDE for Eclipse: http://scala-ide.org/
+1. <b>Play Framework 2.1:</b> http://www.playframework.com/
+2. <b>Slick for database access:</b> http://slick.typesafe.com/
+3. <b>H2 in-memory database:</b> http://www.h2database.com/html/main.html
+4. <b>Scala IDE for Eclipse:</b> http://scala-ide.org/
 
 <p>How to set up:</p>
 
-<pre><code>
-git clone https://github.com/elqsar/play2-pet-clinic.git
+<pre><code>git clone https://github.com/elqsar/play2-pet-clinic.git
 play run
 go to localhost:9000
 apply database scripts
