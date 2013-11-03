@@ -1,0 +1,30 @@
+@(id: Int, pid: Int, petForm: Form[Pet], types: Vector[Type])(implicit flash: Flash)
+@import helper._
+@formInput(attr: String, label: String, value: Any) = {
+	<div class="form-group">
+    	<label for="@attr" class="col-sm-2 control-label">@label</label>
+    	<div class="col-sm-10">
+      		<input style="width:270px;" type="text" value="@value" name="@attr" class="form-control" id="@attr">
+    	</div>
+    </div>
+}
+
+@main("Edit Pet") {
+	@form(action=routes.PetController.updatePet(id, pid), 'class -> "form-horizontal") {
+		@formInput("name", "Name", petForm.get.name)
+		@formInput("birth", "Birth", petForm.get.birth)
+    	<div class="form-group">
+    		<label for="type" class="col-sm-2 control-label">Type</label>
+    		<div class="col-sm-10">
+    			<select style="width:270px;" name="type_id" id="type" class="form-control">
+    				@for(typ <- types) {
+    					<option @if(petForm.get.type_id == typ.id) {selected} value="@typ.id">@typ.name</option>
+    				}
+    			</select>
+    		</div>
+    	</div>
+    	<input type="hidden" name="id" value="@pid" />
+    	<input type="hidden" name="owner_id" value="@id" />
+		<button style="margin-left:107px" type="submit" class="btn btn-primary">Update</button>
+		}
+}

@@ -20,6 +20,8 @@ GET    /owners/:id/pets/new               controllers.PetController.newPetForm(i
 POST   /owners/:id/pets/new               controllers.PetController.newPet(id: Int)
 GET    /owners/:id/pets/:pid/visits/new   controllers.VisitController.newVisitForm(id: Int, pid: Int)
 POST   /owners/:id/pets/:pid/visits/new   controllers.VisitController.newVisit(id: Int, pid: Int)
+GET    /owners/:id/pets/:pid/edit         controllers.PetController.editPet(id: Int, pid: Int)
+POST   /owners/:id/pets/:pid/edit         controllers.PetController.updatePet(id: Int, pid: Int)
 
 #Error
 GET    /error                             controllers.Application.error

@@ -26,5 +26,24 @@ object PetController extends Controller {
       }
     )
   }
+  
+  def editPet(id: Int, pid: Int) = Action { implicit request =>
+    val pet = SlickPetRepository.findOne(pid)
+    val types = SlickPetRepository.findTypesByPet
+    Ok(views.html.petEdit(id, pid, petForm.fill(pet), types))
+  }
+  
+  def updatePet(id: Int, pid: Int) = Action { implicit request =>
+  	val pet = petForm.bindFromRequest
+    pet.fold(
+      hasErrors = { data =>
+        Redirect(routes.PetController.editPet(id, pid)).flashing(Flash(data.data) + ("error" -> "Field should not be empty"))
+      },
+      success = { data => 
+        val result = SlickPetRepository.updatePet(Some(pid), data)
+        Redirect(routes.OwnerController.owner(id))
+      }
+    )
+  }
 
 }

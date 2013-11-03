@@ -23,7 +23,7 @@
 				@for(visit <- pet.visits) {
 					<tbody><tr><td>@visit.date</td><td>@visit.description</td></tr></tbody>
 				}
-				<tr><td><a href="" class="btn btn-primary">Edit Pet</button></td><td><a href="@routes.VisitController.newVisitForm(owner.id.get, pet.id.get)" class="btn btn-primary">New Visit</button></td></tr>
+				<tr><td><a href="@routes.PetController.editPet(owner.id.get, pet.id.get)" class="btn btn-primary">Edit Pet</button></td><td><a href="@routes.VisitController.newVisitForm(owner.id.get, pet.id.get)" class="btn btn-primary">New Visit</button></td></tr>
 				</table>				
 				</td>
 			</tr>			

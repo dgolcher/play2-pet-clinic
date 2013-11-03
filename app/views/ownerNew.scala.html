@@ -2,40 +2,23 @@
 @import helper._
 @import helper.twitterBootstrap._
 
+@formInput(attr: String, label: String, value: Any) = {
+	<div class="form-group">
+    	<label for="@attr" class="col-sm-2 control-label">@label</label>
+    	<div class="col-sm-10">
+      		<input style="width:270px;" type="text" value="@value" name="@attr" class="form-control" id="@attr">
+    	</div>
+    </div>
+}
+
 @main("New Owner") {
 	
 	@form(action=routes.OwnerController.newOwner(), 'class -> "form-horizontal") {
-		<div class="form-group">
-    		<label for="first" class="col-sm-2 control-label">First Name</label>
-    		<div class="col-sm-10">
-      			<input style="width:270px;" type="text" name="first" class="form-control" id="first" placeholder="John">
-      			<span style="color:red" class="error">@if(!flash.isEmpty) { @flash.data.get("error") }</span>
-    		</div>
-    	</div>
-    	<div class="form-group">
-    		<label for="last" class="col-sm-2 control-label">Last Name</label>
-    		<div class="col-sm-10">
-      			<input style="width:270px;" type="text" value="@if(!flash.isEmpty) {@flash.data.get("last")}" name="last" class="form-control" id="last" placeholder="Doe">
-    		</div>
-    	</div>
-    	<div class="form-group">
-    		<label for="address" class="col-sm-2 control-label">Address</label>
-    		<div class="col-sm-10">
-      			<input style="width:270px;" type="text" name="address" value="@if(!flash.isEmpty) {@flash.data.get("address")}" class="form-control" id="address" placeholder="">
-    		</div>
-    	</div>
-    	<div class="form-group">
-    		<label for="city" class="col-sm-2 control-label">City</label>
-    		<div class="col-sm-10">
-      			<input style="width:270px;" type="text" name="city" class="form-control" id="city" placeholder="">
-    		</div>
-    	</div>
-    	<div class="form-group">
-    		<label for="phone" class="col-sm-2 control-label">Phone</label>
-    		<div class="col-sm-10">
-      			<input style="width:270px;" type="text" name="phone" class="form-control" id="phone" placeholder="">
-    		</div>
-    	</div>	
+		@formInput("first", "First Name", "")
+		@formInput("last", "Last Name", "")
+		@formInput("address", "Address", "")
+		@formInput("city", "City", "")
+		@formInput("phone", "Phone", "")
 		<button style="margin-left:107px" type="submit" class="btn btn-primary">Save</button>
 	}
 		
