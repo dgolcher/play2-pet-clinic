@@ -13,9 +13,9 @@
 
 <pre><code>git clone https://github.com/elqsar/play2-pet-clinic.git
 play run
-go to localhost:9000
-apply database scripts
-application ready
 </code></pre>
+Open localhost:9000
+Apply database scripts
+You did it!
 
 
