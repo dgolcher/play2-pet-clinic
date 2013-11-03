@@ -1,4 +1,4 @@
-@(newOwner: Form[Owner])
+@(newOwner: Form[Owner])(implicit flash:Flash)
 @import helper._
 @import helper.twitterBootstrap._
 
@@ -9,18 +9,19 @@
     		<label for="first" class="col-sm-2 control-label">First Name</label>
     		<div class="col-sm-10">
       			<input style="width:270px;" type="text" name="first" class="form-control" id="first" placeholder="John">
+      			<span style="color:red" class="error">@if(!flash.isEmpty) { @flash.data.get("error") }</span>
     		</div>
     	</div>
     	<div class="form-group">
     		<label for="last" class="col-sm-2 control-label">Last Name</label>
     		<div class="col-sm-10">
-      			<input style="width:270px;" type="text" name="last" class="form-control" id="last" placeholder="Doe">
+      			<input style="width:270px;" type="text" value="@if(!flash.isEmpty) {@flash.data.get("last")}" name="last" class="form-control" id="last" placeholder="Doe">
     		</div>
     	</div>
     	<div class="form-group">
     		<label for="address" class="col-sm-2 control-label">Address</label>
     		<div class="col-sm-10">
-      			<input style="width:270px;" type="text" name="address" class="form-control" id="address" placeholder="">
+      			<input style="width:270px;" type="text" name="address" value="@if(!flash.isEmpty) {@flash.data.get("address")}" class="form-control" id="address" placeholder="">
     		</div>
     	</div>
     	<div class="form-group">

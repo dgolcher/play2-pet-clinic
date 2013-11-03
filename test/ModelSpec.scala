@@ -12,9 +12,12 @@ import repository.SlickVetRepository
 import repository.SlickVisitRepository
 import repository.SlickOwnerRepository
 import repository.SlickPetRepository
+import models.Owner
+import models.Pet
+import java.sql.Date
 
 class ModelSpec extends Specification {
-  
+
   "Visits model" should {
 
     "return visit by pet id" in {
@@ -25,7 +28,7 @@ class ModelSpec extends Specification {
       }
     }
   }
-  
+
   "Owner model" should {
 
     "return owners by last name" in {
@@ -35,7 +38,18 @@ class ModelSpec extends Specification {
         owners.size must equalTo(2)
       }
     }
-    
+
+    "insert owner to database" in {
+      running(FakeApplication()) {
+        val repo = SlickOwnerRepository
+        val owner = Owner(None, "John", "Doe", "Main Street 26", "New York", "125125125")
+        val id = repo.save(owner)
+        id must equalTo(11)
+        val john = repo.findOne(id)
+        john.first must equalTo("John")
+      }
+    }
+
     "return pets for owner" in {
       running(FakeApplication()) {
         val repo = SlickOwnerRepository
@@ -44,16 +58,26 @@ class ModelSpec extends Specification {
       }
     }
   }
-  
+
   "Pet model" should {
 
-    "return types by pet" in {
+    "return all types" in {
       running(FakeApplication()) {
         val repo = SlickPetRepository
         val types = repo.findTypesByPet
         types.size must equalTo(6)
       }
     }
+
+    "save pet to database" in {
+      running(FakeApplication()) {
+        val repo = SlickPetRepository
+        val pet = Pet(None, "Pinky", Date.valueOf("2012-08-06"), Some(1), Some(1))
+        val id = repo.save(pet)
+        id must equalTo(14)
+      }
+    }
+
   }
 
   "Vets model" should {
@@ -65,7 +89,7 @@ class ModelSpec extends Specification {
         vets.size must equalTo(6)
       }
     }
-    
+
     "get all spec for vet" in {
       running(FakeApplication()) {
         val repo = SlickVetRepository
@@ -73,7 +97,7 @@ class ModelSpec extends Specification {
         q(3).specialization.size must equalTo(2)
       }
     }
-    
+
     "insert vet into db" in {
       running(FakeApplication()) {
         val repo = SlickVetRepository
@@ -82,7 +106,7 @@ class ModelSpec extends Specification {
         repo.allVets.size must equalTo(7)
       }
     }
-    
+
     "find vet by id" in {
       running(FakeApplication()) {
         val repo = SlickVetRepository

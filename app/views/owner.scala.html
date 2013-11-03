@@ -7,14 +7,28 @@
 		<tr><td><b>Address</b></td><td>@owner.address</td></tr>
 		<tr><td><b>City</b></td><td>@owner.city</td></tr>
 		<tr><td><b>Telephone</b></td><td>@owner.phone</td></tr>
-		<tr><td><a href="@routes.OwnerController.editOwner(owner.id.get)" class="btn btn-primary">Edit Owner</button></td><td><a href="" class="btn btn-primary">Add New Pet</button></td></tr>
+		<tr><td><a href="@routes.OwnerController.editOwner(owner.id.get)" class="btn btn-primary">Edit Owner</button></td><td><a href="@routes.PetController.newPetForm(owner.id.get)" class="btn btn-primary">Add New Pet</button></td></tr>
 	</table>
 	<h3>Pets and Visits</h3>
+	@if(owner.pets.size > 0) {
 	@for(pet <- owner.pets) {
 		<table class="table table-striped">
 			<tr><td><b>Name</b></td></b><td>@pet.name</td></tr>
 			<tr><td><b>Birth</b></td><td>@pet.birth</td></tr>
 			<tr><td><b>Type</b></td><td>@pet.petType</td></tr>
+			<tr><td><b>Visits</b></td>
+				<td>
+				<table class="table">
+				<thead><tr><th>Date</th><th>Description</th></tr>
+				@for(visit <- pet.visits) {
+					<tbody><tr><td>@visit.date</td><td>@visit.description</td></tr></tbody>
+				}
+				<tr><td><a href="" class="btn btn-primary">Edit Pet</button></td><td><a href="@routes.VisitController.newVisitForm(owner.id.get, pet.id.get)" class="btn btn-primary">New Visit</button></td></tr>
+				</table>				
+				</td>
+			</tr>			
 		</table>
-	} 	
+	}
+	}
+	@if(owner.pets.size == 0) { <p>No pets available yet</p>} 	
 }

@@ -3,14 +3,13 @@ package controllers
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import repository.SlickOwnerRepository
-import play.api.data.Form
-import play.api.data.Forms.{ mapping, text, number, ignored, nonEmptyText, optional }
-import models.Owner
-
-case class Search(name: String)
+import play.api.mvc.Flash
+import play.api.Logger
+import java.util.TimeZone
+import utils.AllForms._
 
 object OwnerController extends Controller {
-
+  
   def search = Action { implicit request =>
     Ok(views.html.findOwners())
   }
@@ -37,7 +36,9 @@ object OwnerController extends Controller {
   def newOwner = Action { implicit request =>
     val owner = ownerForm.bindFromRequest
     owner.fold(
-      hasErrors => BadRequest,
+      hasErrors = { data =>
+        Redirect(routes.OwnerController.newOwnerForm).flashing(Flash(data.data) + ("error" -> "Field should not be empty"))
+      },
       success = { data =>
         val id = SlickOwnerRepository.save(data)
         Redirect(routes.OwnerController.owner(id))
@@ -52,20 +53,12 @@ object OwnerController extends Controller {
   def updateOwner(id: Int) = Action { implicit request =>
     val owner = ownerForm.bindFromRequest
     owner.fold(
-      nasErrors => BadRequest,
+      hasErrors = { data =>
+        Redirect(routes.OwnerController.editOwner(id)).flashing(Flash(data.data) + ("error" -> "Field should not be empty"))
+      },
       success = { data =>
         val result = SlickOwnerRepository.updateOwner(Some(id), data)
         Redirect(routes.OwnerController.owner(result))
       })
   }
-
-  val ownerForm = Form(mapping(
-    "id" -> optional(number),
-    "first" -> nonEmptyText,
-    "last" -> nonEmptyText,
-    "address" -> nonEmptyText,
-    "city" -> text,
-    "phone" -> nonEmptyText)(Owner.apply)(Owner.unapply))
-
-  val searchForm = Form(mapping("name" -> text)(Search.apply)(Search.unapply))
 }

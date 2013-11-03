@@ -13,8 +13,9 @@ case class Owner(id: Option[Int] = None, first: String, last: String, address: S
 }
 case class Pet(id: Option[Int] = None, name: String, birth: Date, type_id: Option[Int], owner_id: Option[Int]) {
   var petType = "Not defined"
+  var visits = ArrayBuffer[Visit]()
 }
-case class Visit(id: Option[Int] = None, date: Date, description: String, pet_id: Int)
+case class Visit(id: Option[Int] = None, date: Date, description: String, pet_id: Option[Int])
 case class Spec(id: Option[Int] = None, name: String)
 case class Type(id: Option[Int] = None, name: String)
 case class Specialty(vet_id: Option[Int], specialty_id: Option[Int])
@@ -56,7 +57,7 @@ object Visits extends Table[Visit]("VISITS") {
   def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
   def date = column[Date]("VISIT_DATE")
   def description = column[String]("DESCRIPTION")
-  def pet_id = column[Int]("PET_ID")
+  def pet_id = column[Option[Int]]("PET_ID")
   
   def petFK = foreignKey("fk_visits_pets", pet_id, Pets)(_.id)
 

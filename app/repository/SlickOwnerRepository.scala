@@ -10,16 +10,19 @@ import scala.slick.driver.H2Driver.simple.queryToQueryInvoker
 import scala.slick.driver.H2Driver.simple.stringColumnExtensionMethods
 import scala.slick.driver.H2Driver.simple.tableToQuery
 import scala.slick.driver.H2Driver.simple.valueToConstColumn
-import utils.QueryLogger._
+
 import models.Owner
 import models.Owners
 import models.Pets
-import play.api.Logger
-import models.Vets
 import models.Types
+import play.api.Logger
+import utils.QueryLogger.QueryUtil
 
 object SlickOwnerRepository extends BaseRepository {
 
+  /**
+   * Find Owner by id.
+   */
   def findOne(id: Int): Owner = executeInTransaction {
     val owner = Query(Owners).filter(_.id === id).first
     val pets = Query(Pets).to[ArrayBuffer]
@@ -32,9 +35,23 @@ object SlickOwnerRepository extends BaseRepository {
       pet.petType = typ.name
       owner.pets += pet
     }
+    for {
+      pet <- owner.pets
+    } yield {
+    	val visits = SlickVisitRepository.findByPetId(pet.id.get)
+    	val result = for {
+    	  v <- visits if v.pet_id.get == pet.id.get
+    	} yield {
+    	  v
+    	}
+    	pet.visits ++= result
+    }
     owner
   }
 
+  /**
+   * Find owner by last name.
+   */
   def findByLastName(name: String): ArrayBuffer[Owner] = executeInTransaction {
     val owners = Query(Owners).filter(_.last.toLowerCase like name.toLowerCase + '%').to[ArrayBuffer]
     val pets = Query(Pets).to[Vector]
@@ -48,8 +65,14 @@ object SlickOwnerRepository extends BaseRepository {
     owners.sortBy(_.first)
   }
 
+  /**
+   * Create new owner.
+   */
   def save(owner: Owner): Int = executeInTransaction(Owners.forInsert returning Owners.id insert owner)
 
+  /**
+   * Update existing owner.
+   */
   def updateOwner(id: Option[Int], owner: Owner): Int = {
     executeInTransaction {
       val result = for {
