@@ -1,0 +1,14 @@
+div.main-container {
+	width: 610px;
+	margin: 0 auto;
+}
+
+img.resize {
+	width: 600px;
+	height: 70px;
+	padding: 10px
+}
+
+span.error {
+	color: red;
+}

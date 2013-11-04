@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET    /                                  controllers.Application.index
+GET    /                                  controllers.Main.index
 
 # Vets page
 GET    /vets                              controllers.VetController.showVetList
@@ -24,7 +24,7 @@ GET    /owners/:id/pets/:pid/edit         controllers.PetController.editPet(id: 
 POST   /owners/:id/pets/:pid/edit         controllers.PetController.updatePet(id: Int, pid: Int)
 
 #Error
-GET    /error                             controllers.Application.error
+GET    /error                             controllers.Main.error
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                      controllers.Assets.at(path="/public", file)

@@ -2,6 +2,12 @@
 @import helper._
 @import helper.twitterBootstrap._
 
+@errorData = {
+	@if(flash.get("error").isDefined) {
+		@flash.get("error").get	
+	}
+}
+
 @formInput(attr: String, label: String, value: Any) = {
 	<div class="form-group">
     	<label for="@attr" class="col-sm-2 control-label">@label</label>
@@ -12,13 +18,12 @@
 }
 
 @main("New Owner") {
-	
 	@form(action=routes.OwnerController.newOwner(), 'class -> "form-horizontal") {
-		@formInput("first", "First Name", "")
-		@formInput("last", "Last Name", "")
-		@formInput("address", "Address", "")
-		@formInput("city", "City", "")
-		@formInput("phone", "Phone", "")
+		@formInput("first", "First Name", flash.get("first").getOrElse(""))
+		@formInput("last", "Last Name", flash.get("last").getOrElse(""))
+		@formInput("address", "Address", flash.get("address").getOrElse(""))
+		@formInput("city", "City", flash.get("city").getOrElse(""))
+		@formInput("phone", "Phone", flash.get("phone").getOrElse(""))
 		<button style="margin-left:107px" type="submit" class="btn btn-primary">Save</button>
 	}
 		

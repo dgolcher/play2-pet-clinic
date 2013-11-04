@@ -1,5 +1,10 @@
 @(id: Int, editForm: Form[Owner])(implicit flash: Flash)
 @import helper._
+@errorData = {
+	@if(flash.get("error").isDefined) {
+		@flash.get("error").get	
+	}
+}
 @formInput(attr: String, label: String, value: Any) = {
 	<div class="form-group">
     	<label for="@attr" class="col-sm-2 control-label">@label</label>
