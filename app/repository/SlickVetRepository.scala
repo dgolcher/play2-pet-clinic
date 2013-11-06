@@ -14,6 +14,9 @@ import scala.collection.mutable.ArrayBuffer
 
 object SlickVetRepository extends BaseRepository {
 
+  /**
+   * Find all veterinarians.
+   */
   def allVets(): ArrayBuffer[Vet] = executeInTransaction {
     val vets = Query(Vets).to[ArrayBuffer]
     val specs = Query(Specialties).to[Vector]
@@ -28,6 +31,9 @@ object SlickVetRepository extends BaseRepository {
     vets.sortBy(_.firstName)
   }
 
+  /**
+   * Find vet by id.
+   */
   def findOne(id: Int): Vet = executeInTransaction(Query(Vets).filter(_.id === id).first)
 
   def save(vet: Vet): Int = executeInTransaction(Vets.forInsert returning Vets.id insert vet)
