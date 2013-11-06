@@ -16,8 +16,10 @@
 <pre><code>git clone https://github.com/elqsar/play2-pet-clinic.git
 play run
 </code></pre>
-<p>Open localhost:9000</p>
-<p>Apply database scripts</p>
-<p>You did it!</p>
+<ul>
+<li>Open localhost:9000</li>
+<li>Apply database scripts</li>
+<li>You did it!</li>
+</ul>
 
 
