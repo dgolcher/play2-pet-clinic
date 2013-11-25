@@ -1,0 +1,13 @@
+@(implicit request: RequestHeader)
+
+@main("Server Status") {
+	<script>
+		$(function() {
+			var ws = new WebSocket("@routes.Main.status.webSocketURL()");
+			ws.onmessage = function(message) {
+				$("#data").text(message);
+			}
+		});
+	</script>	
+	<h3>System load: <span id="data"></span></h3>
+}

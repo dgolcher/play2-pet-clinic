@@ -8,7 +8,6 @@ import Database.threadLocalSession
 import models.Vets
 import models.Vet
 import repository.SlickVetRepository
-import repository.SlickVetRepository
 import repository.SlickVisitRepository
 import repository.SlickOwnerRepository
 import repository.SlickPetRepository

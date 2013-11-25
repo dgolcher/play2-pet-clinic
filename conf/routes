@@ -5,6 +5,10 @@
 # Home page
 GET    /                                  controllers.Main.index
 
+#Web Socket
+GET    /status                            controllers.Main.statusPage
+GET    /load                              controllers.Main.status
+
 # Vets page
 GET    /vets                              controllers.VetController.showVetList
 

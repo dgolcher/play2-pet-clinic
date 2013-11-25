@@ -5,6 +5,9 @@ import models.Pet
 import models.Visit
 import models.Owner
 
+/**
+ * Not in use yet.
+ */
 trait PetClinicFacade {
 
   def findPetTypes()
